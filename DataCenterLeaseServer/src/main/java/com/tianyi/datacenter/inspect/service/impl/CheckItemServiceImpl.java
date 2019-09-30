@@ -1676,7 +1676,7 @@ public class CheckItemServiceImpl implements CheckItemService {
             }
         }
         for (int i = 0; i < imgocrmodels.length - 1; i++) {
-            row = workbookSheet.createRow(rowId++);
+            row = workbookSheet.createRow(rowId);
             XSSFCell cell = row.createCell(imgocrmodelBackup);
             cell.setCellValue(imgocrmodels[i]);
         }
