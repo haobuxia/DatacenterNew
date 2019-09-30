@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>生成代码工具</title>
+    <script type="text/javascript" src="/static/jquery/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/linearicons/style.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/toastr/toastr.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/main.css"/>
+    <link rel="stylesheet" href="/static/assets/css/demo.css"/>
+</head>
+<body>
+
+
+<div class="panel clearfix">
+    <div class="panel-heading">
+        <h3 class="header">生成代码工具</h3>
+    </div>
+    <div class="panel-body col-md-6" id="searchSection">
+        <div class="input-group">
+            <input id="name" type="text" name="termCode" class="form-control" placeholder="输入作者姓名"
+                   value="xiayuan"/>
+            <label for="name" class="input-group-addon">作者姓名</label>
+        </div>
+        <div class="input-group">
+            <input id="packageName" type="text" name="packageName" class="form-control"
+                   placeholder="请输入包名 例如 com.tianyi.helmet.server" value=""/>
+            <label for="packageName" class="input-group-addon">包名</label>
+        </div>
+        <div class="input-group">
+            <input id="modelName" type="text" name="modelName" class="form-control"
+                   placeholder="请输入模块名 例如client" value=""/>
+            <label for="modelName" class="input-group-addon">模块名</label>
+        </div>
+        <!--<div class="input-group">-->
+            <!--<input id="diskPath" type="text" name="diskPath" class="form-control" placeholder="请输入保存路径" value=""/>-->
+            <!--<label for="diskPath" class="input-group-addon">保存路径</label>-->
+        <!--</div>-->
+        <div class="input-group" id="show">
+            <button class="btn btn btn-primary pull-right" type="submit"
+                    id="add-table" title="确定">确定
+            </button>
+        </div>
+    </div>
+    <div id="more" style="display:none;">
+        <div class="input-group" id="tables">
+            <select id="tableNames" class="form-control" data-init="false">
+                <option value="">选择</option>
+            </select>
+            <label for="tableNames" class="input-group-addon">&nbsp;数&nbsp;据&nbsp;表&nbsp;</label>
+        </div>
+        <div class="input-group">
+            <input id="tableAnnotation" type="text" name="tableAnnotation" class="form-control" placeholder="请输入表说明"
+                   value=""/>
+            <label for="tableAnnotation" class="input-group-addon">表说明</label>
+        </div>
+        请选择要生成的文件：
+        <table class="input-group" id="files" style="font-size: larger">
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Mapper.xml"/>mapper</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Dao.java"/>dao</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Service.java"/>service</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="ServiceImpl.java"/>impl</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Controller.java"/>controller</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value=".java"/>entity</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value=".vue"/>vue</td>
+            </tr>
+        </table>
+        <div class="input-group" id="path">
+            <input id="diskPath" class="form-control" type="text" value=""/>
+            <label for="diskPath" class="input-group-addon">选择路径</label>
+        </div>
+        <div class="input-group" id="showBtn">
+            <button class="btn btn btn-primary pull-right" type="submit"
+                    id="add-button" title="生成代码">生成代码
+            </button>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/static/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/utils.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script type="text/javascript" src="/static/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="/static/assets/vendor/toastr/toastr.min.js"></script>
+<script type="text/javascript" src="/static/assets/scripts/klorofil-common.js"></script>
+<script type="text/javascript" src="/static/js/consoleIndex.js"></script>
+<script type="text/javascript" src="/static/js/hello.js"></script>
+</body>
+</html>

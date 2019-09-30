@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.inspect.dao.CheckOrderItemDao">
+
+
+    <sql id="Base_Column_List">
+        id,name,organisation
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        name,organisation
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="coid != null and coid != ''">
+                and name = #{coid,jdbcType=VARCHAR}
+            </if>
+            <if test="result != null and result !=''" >
+                and result = #{result,jdbcType=INTEGER}
+            </if>
+            <if test="checker != null and checker !=''" >
+                and checker = #{checker,jdbcType=INTEGER}
+            </if>
+            <if test=" startTime != null ">
+                <![CDATA[ and coi.checkEnd >= #{startTime,jdbcType=VARCHAR} ]]>
+            </if>
+            <if test=" endTime != null ">
+                <![CDATA[ and coi.checkEnd <= #{endTime,jdbcType=VARCHAR} ]]>
+            </if>
+        </where>
+    </sql>
+
+   <!-- <select id="search" parameterType="map" resultType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_user
+        <include refid="conditions" />
+        ORDER BY id
+    </select>-->
+
+
+</mapper>

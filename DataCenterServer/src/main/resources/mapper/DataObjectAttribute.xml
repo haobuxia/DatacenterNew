@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.resource.dao.DataObjectAttributeDao">
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.resource.entity.DataObjectAttribute">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="resId" property="resId" jdbcType="INTEGER" />
+        <result column="columnName" property="columnName" jdbcType="VARCHAR" />
+        <result column="jdbcType" property="jdbcType" jdbcType="VARCHAR" />
+        <result column="length" property="length" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="dicRes" property="dicRes" jdbcType="INTEGER" />
+        <result column="dicKey" property="dicKey" jdbcType="INTEGER" />
+        <result column="dicValue" property="dicValue" jdbcType="INTEGER" />
+        <result column="rule" property="rule" jdbcType="VARCHAR" />
+        <result column="isKey" property="isKey" jdbcType="VARCHAR" />
+        <result column="isNull" property="isNull" jdbcType="VARCHAR" />
+        <result column="isIncrement" property="isIncrement" jdbcType="VARCHAR" />
+        <result column="indexType" property="indexType" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,resId,columnName,jdbcType,length,name,description,type,dicRes,rule,isKey,isNull,isIncrement,indexType,dicKey,dicValue
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        resId,columnName,jdbcType,length,name,description,type,dicRes,rule,isKey,isNull,isIncrement,indexType,dicKey,dicValue
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="resId != null">
+                and resId = #{resId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="com.tianyi.datacenter.resource.entity.DataObjectAttribute" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO data_center_attr(
+        <include refid="Base_Column_List_NoId" />
+        )
+        VALUES (
+        #{resId},#{columnName},#{jdbcType},#{length},#{name},#{description},#{type},#{dicRes},#{rule},#{isKey},#{isNull},#{isIncrement},#{indexType},#{dicKey},#{dicValue}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="map">
+        DELETE FROM data_center_attr
+        <include refid="conditions" />
+    </delete>
+
+    <update id="update" parameterType="com.tianyi.datacenter.resource.entity.DataObjectAttribute">
+        UPDATE data_center_attr
+        <set>
+            <if test="resId != null">
+                resId = #{resId,jdbcType=INTEGER},
+            </if>
+            <if test="columnName != null and columnName != ''">
+                columnName = #{columnName,jdbcType=VARCHAR},
+            </if>
+            <if test="jdbcType != null and jdbcType != ''">
+                jdbcType = #{jdbcType,jdbcType=VARCHAR},
+            </if>
+            <if test="length != null">
+                length = #{length,jdbcType=INTEGER},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="dicRes != null">
+                dicRes = #{dicRes,jdbcType=INTEGER},
+            </if>
+            <if test="rule != null and rule != ''">
+                rule = #{rule,jdbcType=VARCHAR},
+            </if>
+            <if test="isKey != null and isKey != ''">
+                isKey = #{isKey,jdbcType=VARCHAR},
+            </if>
+            <if test="isNull != null and isNull != ''">
+                isNull = #{isNull,jdbcType=VARCHAR},
+            </if>
+            <if test="isIncrement != null and isIncrement != ''">
+                isIncrement = #{isIncrement,jdbcType=VARCHAR},
+            </if>
+            <if test="indexType != null and indexType != ''">
+                indexType = #{indexType,jdbcType=VARCHAR},
+            </if>
+            <if test="dicKey != null">
+                dicKey = #{dicKey,jdbcType=INTEGER},
+            </if>
+            <if test="dicValue != null">
+                dicValue = #{dicValue,jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="listBy" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_attr
+        <include refid="conditions" />
+        ORDER BY id DESC
+        <include refid="core.page" />
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="int">
+        SELECT COUNT(id)
+        FROM data_center_attr
+        <include refid="conditions" />
+    </select>
+
+    <select id="listByNoPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_attr
+        <include refid="conditions" />
+        ORDER BY id
+    </select>
+
+    <select id="getById" parameterType="int" resultType="com.tianyi.datacenter.resource.entity.DataObjectAttribute">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_attr
+        WHERE id = #{id}
+    </select>
+</mapper>

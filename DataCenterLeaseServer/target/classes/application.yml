@@ -1,0 +1,76 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:19041/eureka/
+
+server:
+  port: 19065
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: service-inspect
+  redis:
+    host: 127.0.0.1
+    database: 1
+    port: 6379
+    password: tianyikeji2017
+    timeout: 5000
+  profiles:
+    active: local
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.30.226:3306/hmserver_lease?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    business:
+      driver: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.30.226:3306/hmserver_lease?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: root
+    dbcp2:                                          # 进行数据库连接池的配置
+      min-idle: 5                                   # 数据库连接池的最小维持连接数
+      initial-size: 5                               # 初始化提供的连接数
+      max-total: 5                                  # 最大的连接数
+      max-wait-millis: 200                          # 等待连接获取的最大超时时间
+  rabbitmq:
+    host: 192.168.30.159
+    port: 5672
+    username: ty
+    password: ty
+    virtual-host: /
+    publisher-confirms: false
+#导入mybatis-plus包,配置改为下面的
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.tianyi.datacenter.*.entity
+#日志的配置
+logging:
+  path: d:\\DataCenterLog
+  file: myLeaseLog.log
+  config: classpath:logback-spring.xml
+#spring整合Mybatis的配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.tianyi.datacenter.*.entity
+
+#打印sql语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+tianyi:
+  intesrv:
+    url: http://smart.tygps.com:13332
+
+  imgocrmodel:
+    video:
+      url: http://192.168.30.226:9090
+#spring:
+#    main:
+#        banner-mode: "off"
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000

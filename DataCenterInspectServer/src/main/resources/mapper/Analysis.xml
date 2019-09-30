@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.inspect.dao.AnalysisDao">
+
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.inspect.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="organisation" property="organisation" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+       startTime,endTime,typeName,modelName,station,checktypeName,checker
+    </sql>
+
+
+    <sql id="conditions">
+        <where>
+            <if test="typeName != null and typeName != ''">
+                and typeName = #{typeName,jdbcType=VARCHAR}
+            </if>
+            <if test="modelName != null and modelName != ''">
+                and modelName = #{modelName,jdbcType=VARCHAR}
+            </if>
+            <if test="station != null and station != ''">
+                and station = #{station,jdbcType=VARCHAR}
+            </if>
+            <if test="checktypeName != null and checktypeName != ''">
+                and checktypeName = #{checktypeName,jdbcType=VARCHAR}
+            </if>
+            <if test="organisation != null and organisation != ''">
+                and organisation = #{organisation,jdbcType=VARCHAR}
+            </if>
+            <if test="checker != null and checker != ''">
+                and checker = #{checker,jdbcType=VARCHAR}
+            </if>
+            <if test=" startTime != null and startTime != ''">
+                <![CDATA[ and coi.checkEnd >= #{startTime,jdbcType=VARCHAR} ]]>
+            </if>
+            <if test=" endTime != null and endTime != ''">
+                <![CDATA[ and coi.checkEnd <= #{endTime,jdbcType=VARCHAR} ]]>
+            </if>
+
+        </where>
+    </sql>
+
+
+
+    <select id="queryByDay" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,10) everyday, coi.checkStart,coi.checkEnd
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyday
+    </select>
+    <select id="queryByMouth" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,7) everyMonth, coi.checkStart,coi.checkEnd
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyMonth
+    </select>
+    <select id="queryByYear" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,4) everyYear, coi.checkStart,coi.checkEnd
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyYear
+    </select>
+    <select id="getCheckerByDay" parameterType="map"  resultType="java.util.Map">
+        SELECT  distinct coi.checker
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+    </select>
+    <select id="getCheckerByYear" parameterType="map"  resultType="java.util.Map">
+        SELECT  distinct coi.checker
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+    </select>
+    <select id="getCheckerByMonth" parameterType="map"  resultType="java.util.Map">
+        SELECT  distinct coi.checker
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+    </select>
+    <select id="getProblemByDay" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,10) everyday
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyday
+    </select>
+    <select id="getProblemByDayHaveProblem" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,10) everyday
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        JOIN k_problem p ON p.checkorderId = coi.cid
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyday
+    </select>
+    <select id="getProblemByMonth" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,7) everyMonth
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyMonth
+    </select>
+    <select id="getProblemByMonthHaveProblem" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,7) everyMonth
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        JOIN k_problem p ON p.checkorderId = coi.cid
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyMonth
+    </select>
+    <select id="getProblemByYear" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,4) everyYear
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyYear
+    </select>
+    <select id="getProblemByYearHaveProblem" parameterType="map"  resultType="java.util.Map">
+        SELECT  SUBSTR(checkEnd,1,4) everyYear
+        FROM k_checkorderitem coi
+        JOIN k_checkorder co ON coi.checkorderId = co.cid
+        JOIN k_car car ON car.cid = co.carId
+        JOIN k_model m  ON m.mid = car.modelId
+        JOIN k_machinetype mt ON mt.mid = m.machinetypeId
+        JOIN k_problem p ON p.checkorderId = coi.cid
+        <include refid="conditions" />
+        and coi.result="1"
+        order by everyYear
+    </select>
+
+
+
+
+
+</mapper>

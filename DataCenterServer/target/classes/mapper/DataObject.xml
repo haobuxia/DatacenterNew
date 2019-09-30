@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--注意mapper 的namespace是Dao接口全路径-->
+<mapper namespace="com.tianyi.datacenter.resource.dao.DataObjectDao">
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.resource.entity.DataObject">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="typeId" property="typeId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="defined" property="defined" jdbcType="VARCHAR" />
+        <result column="isDic" property="isDic" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,type,defined,isDic,description,typeId
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        name,type,defined,isDic,description,typeId
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="type != null and type != ''">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="typeId != null">
+                and typeId = #{typeId,jdbcType=INTEGER}
+            </if>
+            <if test="isDic != null and isDic != ''">
+                and isDic = #{isDic,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                and name like binary concat('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="checkname != null and checkname != ''">
+                and name = #{checkname,jdbcType=VARCHAR}
+            </if>
+            <if test="defined != null and defined != ''">
+                and defined = #{defined,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="com.tianyi.datacenter.resource.entity.DataObject" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO data_center_res(
+        <include refid="Base_Column_List_NoId" />
+        )
+        VALUES (
+        #{name},#{type},#{defined},#{isDic},#{description},#{typeId}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM data_center_res
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.tianyi.datacenter.resource.entity.DataObject">
+        UPDATE data_center_res
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="typeId != null">
+                typeId = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="defined != null and defined != ''">
+                defined = #{defined,jdbcType=VARCHAR},
+            </if>
+            <if test="isDic != null and isDic != ''">
+                isDic = #{isDic,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="listBy" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_res
+        <include refid="conditions" />
+        ORDER BY id DESC
+        <include refid="core.page" />
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="int">
+        SELECT COUNT(id)
+        FROM data_center_res
+        <include refid="conditions" />
+    </select>
+
+    <select id="listByNoPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_res
+        <include refid="conditions" />
+        ORDER BY id
+    </select>
+
+    <select id="getById" parameterType="int" resultType="com.tianyi.datacenter.resource.entity.DataObject">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_res
+        WHERE id = #{id}
+    </select>
+</mapper>

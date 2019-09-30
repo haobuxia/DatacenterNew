@@ -1,0 +1,27 @@
+server:
+  port: 19062
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:19041/eureka/
+
+spring:
+  datasource:
+    name: service-gencodetool
+    url: jdbc:mysql://@dbUrl@/hmserver
+    username: @dbUser@
+    password: @dbPassword@
+    driver-class-name: com.mysql.jdbc.Driver
+    thymeleaf:
+      cache: true
+      prefix: classpath:/templates/
+      suffix: .html
+      mode: HTML5
+    mvc:
+      static-path-pattern: /static/**
+  application:
+    name: service-gencodetool
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.tianyi.code.server

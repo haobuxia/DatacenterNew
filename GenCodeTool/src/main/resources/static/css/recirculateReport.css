@@ -1,0 +1,31 @@
+.highlight {
+    color: red;
+}
+
+.headDiv {
+    width: 1000px;
+}
+
+.reportDiv {
+    width: 1000px;
+    position: absolute;
+    left: 200px;
+    border: 2px solid #efebeb;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-bottom: 100px
+}
+
+.topDiv {
+    width: 1000px;
+    margin-bottom: 20px;
+    margin-top: 60px;
+}
+
+.contentDiv {
+    width: 1000px;
+    margin-bottom: 10px;;
+    background-image: url(/src/webapp/static/images/bg-tykj.png);
+}

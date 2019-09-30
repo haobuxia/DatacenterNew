@@ -1,0 +1,8 @@
+com\tianyi\datacenter\feign\common\vo\ResponseVo.class
+com\tianyi\datacenter\feign\controller\WebController.class
+com\tianyi\datacenter\feign\common\model\DataCenterParam.class
+com\tianyi\datacenter\feign\service\failure\DataCenterFeignServiceFailure.class
+com\tianyi\datacenter\feign\service\DataCenterFeignService.class
+com\tianyi\datacenter\feign\common\util\DSParamDsBuilder.class
+com\tianyi\datacenter\feign\FeignServerApplication.class
+com\tianyi\datacenter\feign\common\util\DSParamBuilder.class

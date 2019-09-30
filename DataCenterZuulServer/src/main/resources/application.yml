@@ -1,0 +1,24 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:19041/eureka/
+
+server:
+  port: 19061
+
+spring:
+  application:
+    name: service-zuul
+
+zuul:
+  routes:
+    feignA:
+      path: /datacenter/**
+      serviceId: service-datacenter
+#      serviceId: service-feign
+  host:
+    connect-timeout-millis: 3000
+    socket-timeout-millis: 3000
+
+
+

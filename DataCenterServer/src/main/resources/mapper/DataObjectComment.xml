@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.resource.dao.DataObjectCommentDao">
+    <!--定义resultMap-->
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.resource.entity.DataObjectComment">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="resId" property="resId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,resId,name,comment
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        resId,name,comment
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="resId != null">
+                and resId = #{resId,jdbcType=INTEGER}
+            </if>
+            <if test="comment != null and comment != ''">
+                and comment = #{comment,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="com.tianyi.datacenter.resource.entity.DataObjectComment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO data_center_comment(
+        <include refid="Base_Column_List_NoId" />
+        )
+        VALUES (
+        #{resId},#{name},#{comment}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM data_center_comment
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.tianyi.datacenter.resource.entity.DataObject">
+        UPDATE data_center_comment
+        <set>
+            <if test="resId != null">
+                resId = #{resId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null and comment != ''">
+                comment = #{comment,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="listBy" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_comment
+        <include refid="conditions" />
+        ORDER BY id DESC
+        <include refid="core.page" />
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="int">
+        SELECT COUNT(id)
+        FROM data_center_comment
+        <include refid="conditions" />
+    </select>
+
+    <select id="listByNoPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_comment
+        <include refid="conditions" />
+        ORDER BY id
+    </select>
+
+    <select id="getById" parameterType="int" resultType="com.tianyi.datacenter.resource.entity.DataObject">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_comment
+        WHERE id = #{id}
+    </select>
+</mapper>

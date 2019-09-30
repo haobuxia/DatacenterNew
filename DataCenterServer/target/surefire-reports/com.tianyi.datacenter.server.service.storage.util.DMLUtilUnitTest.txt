@@ -1,0 +1,28 @@
+-------------------------------------------------------------------------------
+Test set: com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 5, Errors: 1, Skipped: 0, Time elapsed: 0.11 s <<< FAILURE! - in com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest
+generateUpdate(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0.031 s  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[UPDATE test SET field1 = 'value1' , field2 = 'value2' , field3 = null, field4 = 'null' WHERE field3 > 'value3' and field4 = value4 and field4 like 'value4' and field4 < 'value4' and field4 >= value4 and field4 <= value4 and field_null = null and field_char_null = 'null' ]> but was:<[]>
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateUpdate(DMLUtilUnitTest.java:253)
+
+generateQueryWithOutCondition(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0.032 s  <<< FAILURE!
+java.lang.AssertionError: expected:<SELECT DISTINCT fieldA, fieldB, fieldC FROM test LIMIT 0,50> but was:<null>
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateQueryWithOutCondition(DMLUtilUnitTest.java:153)
+
+generateQuery(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0.031 s  <<< FAILURE!
+java.lang.AssertionError: expected:<SELECT DISTINCT fieldA, fieldB, fieldC FROM test WHERE field3 > 'value3' and field4 = value4 and field4 like 'value4' and field4 < 'value4' and field4 >= value4 and field4 <= value4 and field_null = null and field_char_null = 'null' LIMIT 50,50> but was:<null>
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateQuery(DMLUtilUnitTest.java:197)
+
+generateDelete(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0 s  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<...alue3' and field4 = [value4 and field4 like 'value4' and field4 < 'value4' and field4 >= value4 and field4 <= value4] and field_null = nu...> but was:<...alue3' and field4 = ['value4' and field4 like 'value4' and field4 < 'value4' and field4 >= 'value4' and field4 <= 'value4'] and field_null = nu...>
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateDelete(DMLUtilUnitTest.java:61)
+
+generateInsert(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0.016 s  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[INSERT INTO test ( field1, field2, field3, field4 ) VALUES ( 'field1' , 'field2' , null , 'null' )]> but was:<[]>
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateInsert(DMLUtilUnitTest.java:113)
+
+generateDataSetSelect(com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.service.storage.util.DMLUtilUnitTest.generateDataSetSelect(DMLUtilUnitTest.java:34)
+

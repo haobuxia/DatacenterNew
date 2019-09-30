@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterAuthorServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterEurekaServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterFeignServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterGatewayServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterInspectServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterLeaseServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataCenterServer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GenCodeTool" charset="UTF-8" />
+  </component>
+</project>

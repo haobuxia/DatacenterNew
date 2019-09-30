@@ -1,0 +1,5 @@
+.touKuiList{margin-bottom: 0;border-radius: 0;}
+.touKuiList .activity-list{margin-bottom: 0;}
+.touKuiList .activity-list li{position: relative;}
+.touKuiList .activity-list li i.lnr-cross{position: absolute;top: 5px;right: 5px;font-size: 20px;}
+.touKuiList .activity-list li p{word-wrap: break-word;word-break:break-all;}

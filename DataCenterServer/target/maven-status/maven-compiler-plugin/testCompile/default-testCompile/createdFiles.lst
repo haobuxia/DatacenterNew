@@ -1,0 +1,15 @@
+com\tianyi\datacenter\server\service\object\DataObjectAttributeServiceUnitTest.class
+com\tianyi\datacenter\server\service\storage\util\DMLUtilUnitTest.class
+com\tianyi\datacenter\server\service\storage\DataStorageDDLServiceManualTest.class
+com\tianyi\datacenter\server\service\storage\impl\DataStorageDMLServiceUnitTest.class
+com\tianyi\datacenter\server\controller\access\DataAccessControllerUnitTest.class
+com\tianyi\datacenter\server\service\storage\util\DDLUtilUnitTest.class
+com\tianyi\datacenter\server\controller\object\DataObjectControllerUnitTest.class
+com\tianyi\datacenter\server\service\storage\util\DBUtilManualTest.class
+com\tianyi\datacenter\server\service\object\DataObjectServiceManualTest.class
+com\tianyi\datacenter\server\service\storage\impl\DataStorageDDLServiceUnitTest.class
+com\tianyi\datacenter\server\controller\object\DataObjectAttributeControllerUnitTest.class
+com\tianyi\datacenter\server\service\access\DataAccessServiceUnitTest.class
+com\tianyi\datacenter\server\service\object\DataObjectAttributeServiceManualTest.class
+com\tianyi\datacenter\server\service\object\DataObjectServiceUnitTest.class
+com\tianyi\datacenter\server\service\resource\ResourceControllerIntegrateTest.class

@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.047 s <<< FAILURE! - in com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest
+createDDL(com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest)  Time elapsed: 0 s  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<CREATE TABLE Test([ field1 int(10) NOT NULL AUTO_INCREMENT COMMENT 'comment for field1' , field2 int(20) NOT NULL PRIMARY KEY COMMENT 'comment for field2' , field2 varchar](20) NULL COMMENT 'c...> but was:<CREATE TABLE Test([plt_oid int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT '唯一标识',plt_creator int(11) NULL COMMENT '创建人员',plt_createtime datetime NULL COMMENT '创建时间',plt_lastmodifier int(11) NULL COMMENT '修改人员',plt_lastmodifytime datetime NULL COMMENT '修改时间', field1 int (10) NOT NULL AUTO_INCREMENT COMMENT 'comment for field1' , field2 int (20) NOT NULL UNIQUE KEY COMMENT 'comment for field2' , field2 varchar ](20) NULL COMMENT 'c...>
+	at com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest.createDDL(DDLUtilUnitTest.java:82)
+
+alterDDL(com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest)  Time elapsed: 0.047 s  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[ALTER TABLE Test ADD COLUMN field1 int(20) NOT NULL COMMENT 'add column field1' , CHANGE COLUMN field1 field1 int(20) NOT NULL COMMENT 'alter column field1' ]> but was:<[]>
+	at com.tianyi.datacenter.server.service.storage.util.DDLUtilUnitTest.alterDDL(DDLUtilUnitTest.java:146)
+

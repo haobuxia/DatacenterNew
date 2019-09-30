@@ -1,0 +1,82 @@
+.chart{
+    height: 250px !important;
+    margin-bottom: 20px;
+}
+
+.myvideo{
+    width:640px;
+    height:480px;
+}
+
+.map{
+    width:640px;
+    height:480px;
+}
+
+@media screen and (min-width: 400px) {
+    .chart {
+        height: 200px !important;
+        margin-bottom: 10px;
+    }
+    .myvideo{
+        width:200px;
+    }
+    .map{
+        width:200px;
+    }
+}
+
+
+@media screen and (min-width: 600px) {
+    .chart {
+        height: 200px !important;
+        margin-bottom: 10px;
+    }
+    .myvideo{
+        width:320px;
+    }
+    .map{
+        width:320px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .chart {
+        height: 250px !important;
+        margin-bottom: 20px;
+    }
+    .myvideo{
+        width:480px;
+    }
+    .map{
+        width:480px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .chart {
+        height: 250px !important;
+        margin-bottom: 20px;
+    }
+    .myvideo{
+        width:640px;
+    }
+    .map{
+        width:640px;
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .chart {
+        height: 250px !important;
+        margin-bottom: 20px;
+    }
+    .myvideo{
+        width:720px;
+    }
+    .map{
+        width:720px;
+    }
+}
+
+

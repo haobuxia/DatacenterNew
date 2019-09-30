@@ -1,0 +1,6 @@
+com\tianyi\datacenter\gateway\config\RouteConfiguration.class
+com\tianyi\datacenter\gateway\filter\AuthorizeGatewayFilterFactory.class
+com\tianyi\datacenter\gateway\config\TianYiConfig.class
+com\tianyi\datacenter\gateway\filter\AuthorizeFilter.class
+com\tianyi\datacenter\GatewayServerApplication.class
+com\tianyi\datacenter\gateway\filter\AuthorizeGatewayFilterFactory$Config.class

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="DataCenterAuthorServer" />
+        <module name="DataCenterEurekaServer" />
+        <module name="DataCenterFeignServer" />
+        <module name="DataCenterGatewayServer" />
+        <module name="DataCenterInspectServer" />
+        <module name="DataCenterLeaseServer" />
+        <module name="DataCenterServer" />
+        <module name="GenCodeTool" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DataCenter" target="1.8" />
+      <module name="DataCenterAuthorServer" target="1.8" />
+      <module name="DataCenterEurekaServer" target="1.8" />
+      <module name="DataCenterFeignServer" target="1.8" />
+      <module name="DataCenterGatewayServer" target="1.8" />
+      <module name="DataCenterInspectServer" target="1.8" />
+      <module name="DataCenterLeaseServer" target="1.8" />
+      <module name="DataCenterServer" target="1.8" />
+      <module name="GenCodeTool" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

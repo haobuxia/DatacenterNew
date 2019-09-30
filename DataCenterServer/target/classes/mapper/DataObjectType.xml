@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.resource.dao.DataObjectTypeDao">
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.resource.entity.DataObjectType">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="typeName" property="typeName" jdbcType="VARCHAR" />
+        <result column="fatherId" property="fatherId" jdbcType="INTEGER" />
+        <result column="category" property="category" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,typeName,fatherId,category
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        typeName,fatherId,category
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="typeName != null and typeName != ''">
+                and typeName = #{typeName,jdbcType=VARCHAR}
+            </if>
+            <if test="fatherId != null">
+                and fatherId = #{fatherId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="com.tianyi.datacenter.resource.entity.DataObjectType" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO data_center_type(
+        <include refid="Base_Column_List_NoId" />
+        )
+        VALUES (
+        #{typeName},#{fatherId},#{category}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM data_center_type
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.tianyi.datacenter.resource.entity.DataObjectType">
+        UPDATE data_center_type
+        <set>
+            <if test="typeName != null and typeName != ''">
+                typeName = #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="fatherId != null">
+                fatherId = #{fatherId,jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="listBy" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_type
+        <include refid="conditions" />
+        ORDER BY id DESC
+        <include refid="core.page" />
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="int">
+        SELECT COUNT(id)
+        FROM data_center_type
+        <include refid="conditions" />
+    </select>
+
+    <select id="listByNoPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_type
+        <include refid="conditions" />
+        ORDER BY id
+    </select>
+
+    <select id="getById" parameterType="int" resultType="com.tianyi.datacenter.resource.entity.DataObjectType">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM data_center_type
+        WHERE id = #{id}
+    </select>
+</mapper>

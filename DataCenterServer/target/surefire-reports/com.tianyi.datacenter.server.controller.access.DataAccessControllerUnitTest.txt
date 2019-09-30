@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.5 s <<< FAILURE! - in com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest
+deleteBusinessData(com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest)  Time elapsed: 0.406 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest.deleteBusinessData(DataAccessControllerUnitTest.java:83)
+
+updateBusinessData(com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest.updateBusinessData(DataAccessControllerUnitTest.java:95)
+
+addBusinessData(com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest.addBusinessData(DataAccessControllerUnitTest.java:72)
+
+retrieveBusinessData(com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.controller.access.DataAccessControllerUnitTest.retrieveBusinessData(DataAccessControllerUnitTest.java:111)
+

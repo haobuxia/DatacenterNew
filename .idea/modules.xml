@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DataCenter.iml" filepath="$PROJECT_DIR$/DataCenter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterAuthorServer/DataCenterAuthorServer.iml" filepath="$PROJECT_DIR$/DataCenterAuthorServer/DataCenterAuthorServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterEurekaServer/DataCenterEurekaServer.iml" filepath="$PROJECT_DIR$/DataCenterEurekaServer/DataCenterEurekaServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterFeignServer/DataCenterFeignServer.iml" filepath="$PROJECT_DIR$/DataCenterFeignServer/DataCenterFeignServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterGatewayServer/DataCenterGatewayServer.iml" filepath="$PROJECT_DIR$/DataCenterGatewayServer/DataCenterGatewayServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterInspectServer/DataCenterInspectServer.iml" filepath="$PROJECT_DIR$/DataCenterInspectServer/DataCenterInspectServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterLeaseServer/DataCenterLeaseServer.iml" filepath="$PROJECT_DIR$/DataCenterLeaseServer/DataCenterLeaseServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DataCenterServer/DataCenterServer.iml" filepath="$PROJECT_DIR$/DataCenterServer/DataCenterServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GenCodeTool/GenCodeTool.iml" filepath="$PROJECT_DIR$/GenCodeTool/GenCodeTool.iml" />
+    </modules>
+  </component>
+</project>

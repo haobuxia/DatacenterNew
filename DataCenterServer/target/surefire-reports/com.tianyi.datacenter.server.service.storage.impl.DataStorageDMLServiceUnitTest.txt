@@ -1,0 +1,64 @@
+-------------------------------------------------------------------------------
+Test set: com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.016 s <<< FAILURE! - in com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest
+insertDMLService(com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest)  Time elapsed: 0.016 s  <<< ERROR!
+org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+
+Invalid use of argument matchers!
+3 matchers expected, 2 recorded:
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(anyObject(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(anyObject(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+
+	at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+
+selectDMLService(com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest)  Time elapsed: 0 s  <<< ERROR!
+org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+
+Invalid use of argument matchers!
+3 matchers expected, 2 recorded:
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(anyObject(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(anyObject(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+
+	at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+
+errDataSetNotRetrieve(com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest)  Time elapsed: 0 s  <<< ERROR!
+org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+
+Invalid use of argument matchers!
+3 matchers expected, 2 recorded:
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+-> at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(anyObject(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(anyObject(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+
+	at com.tianyi.datacenter.server.service.storage.impl.DataStorageDMLServiceUnitTest.setUp(DataStorageDMLServiceUnitTest.java:40)
+

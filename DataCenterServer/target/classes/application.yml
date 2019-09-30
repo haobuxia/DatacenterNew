@@ -1,0 +1,43 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:19041/eureka/
+
+server:
+  port: 19081
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: service-datacenter
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.30.226:3306/hmserver_lease?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    business:
+      driver: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.30.226:3306/hmserver_lease?zeroDateTimeBehavior=convertToNull&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+      username: root
+      password: root
+
+#日志的配置
+logging:
+  path: d:\\DataCenterLog
+  file: myLog.log
+  config: classpath:logback-spring.xml
+#spring整合Mybatis的配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.tianyi.datacenter.resource.entity
+
+tianyuan:
+  intesrv:
+    prod:
+      url: http://isrvmodeler.tygps.com
+    url: http://192.168.30.63:9090
+    loginName: admin
+    password: 123456
+    jwt: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MjEzMTY3Nn0.45U1SFbtXR0GKs-_0udnmiWi_GVBNcS3nnA9540tvHqxK6d13mobTF-2ppwJ1Qj1mwDcfHWchlAidjsU_DEOlw

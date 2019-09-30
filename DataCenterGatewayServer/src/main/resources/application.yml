@@ -1,0 +1,72 @@
+server:
+  port: 19068
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:19041/eureka/
+
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: tykj_datacenter_route
+        uri: lb://service-datacenter
+        predicates:
+        - Path=/tykj/data/**
+        filters:
+        - StripPrefix=1
+        # 关键在下面一句，值为true则开启认证，false则不开启
+        # 这种配置方式和spring cloud gateway内置的GatewayFilterFactory一致
+        #- Authorize=true
+      - id: tykj_datacenter_route1
+        uri: lb://service-datacenter
+        predicates:
+        - Path=/tykj/datatype/**
+        filters:
+        - StripPrefix=1
+      - id: tykj_author_route
+        uri: lb://service-author
+        predicates:
+        - Path=/tykj/author/**
+        filters:
+        - StripPrefix=1
+      - id: tykj_inspect_route
+        uri: lb://service-inspect
+        predicates:
+        - Path=/tykj/inspect/**
+        filters:
+        - StripPrefix=1
+
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+  redis:
+    host: 127.0.0.1
+    database: 3
+    port: 6379
+    password: tianyikeji2017
+    timeout: 5000
+
+tianyi:
+  autoertype: 1
+  #0小松工厂鉴权1租赁author鉴权
+  intesrv:
+    url: http://smartuat.tygps.com
+  leaseauthor:
+    url: http://192.168.30.127:8082/TYRental_KCR/Oauth
+
+jwt:
+  secret:
+    key: asdfghjkl
+    #jwt生成密钥
+  blacklist:
+    key:
+      format: JWT_BLACKLIST::%s
+      #token黑名单 存储key
+auth:
+  skip:
+    urls: /tykj/author/login,/tykj/author/token/refresh,/tykj/inspect/checkitem/exportmodel,/tykj/inspect/checkitem/exportdata,/tykj/inspect/station/export,/tykj/inspect/distribution/exportmodel
+    #不进行token拦截

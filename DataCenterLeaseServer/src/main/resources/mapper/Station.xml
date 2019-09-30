@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.inspect.dao.StationDao">
+
+
+    <sql id="Base_Column_List">
+        id,name,organisation
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        name,organisation
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="organisation != null">
+                and organisation = #{organisation,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+
+
+    <select id="selectBystationId" resultType="java.util.Map">
+       select checktypeId from k_stationcheck
+       where stationId=#{stationId}
+    </select>
+    <delete id="deleteBychecktypeId" >
+        DELETE FROM k_stationcheck
+        WHERE checktypeid = #{checktypeid}
+    </delete>
+
+
+</mapper>

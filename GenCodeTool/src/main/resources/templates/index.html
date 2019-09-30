@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>生成代码工具</title>
+    <script type="text/javascript" src="/static/jquery/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="/static/assets/vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/font-awesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/linearicons/style.css"/>
+    <link rel="stylesheet" href="/static/assets/vendor/toastr/toastr.min.css"/>
+    <link rel="stylesheet" href="/static/assets/css/main.css"/>
+    <link rel="stylesheet" href="/static/assets/css/demo.css"/>
+    <script type="text/javascript" src="/static/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/utils.js"></script>
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/static/assets/vendor/toastr/toastr.min.js"></script>
+    <script type="text/javascript" src="/static/assets/scripts/klorofil-common.js"></script>
+    <script type="text/javascript" src="/static/js/consoleIndex.js"></script>
+    <script type="text/javascript">
+        function gen(files) {
+            var _author = $("#name").val();
+            var _tableAnnotation = $("#tableAnnotation").val();
+            var _tableName = $("#tableNames").val();
+            var _diskPath = $("#diskPath").val();
+            var _packageName = $("#packageName").val();
+            var _password = $("#password").val();
+            var _url = $("#url").val();
+            var _user = $("#user").val();
+            var _modelName = $("#modelName").val();
+            var _suffix = files;
+
+            $.post("/gen/code",
+                {
+                    author: _author,
+                    tableAnnotation: _tableAnnotation,
+                    tableName: _tableName,
+                    diskPath: _diskPath,
+                    packageName: _packageName,
+                    password: _password,
+                    url: _url,
+                    user: _user,
+                    modelName: _modelName,
+                    suffix:_suffix
+                },
+                function (resp) {
+                    if (resp.success) {
+                        showAlert("生成代码成功")
+                    } else {
+                        showAlert("生成失败")
+                    }
+                })
+        }
+
+        function tables() {
+            var _author = $("#name").val();
+            var _tableAnnotation = $("#tableAnnotation").val();
+            var _diskPath = $("#diskPath").val();
+            var _packageName = $("#packageName").val();
+            var _password = $("#password").val();
+            var _url = $("#url").val();
+            var _user = $("#user").val();
+            var selectObj = $("#tableNames");
+            var _modelName = $("#modelName").val();
+            $.post("/gen/table",
+                {
+                    author: _author,
+                    tableAnnotation: _tableAnnotation,
+                    tableName: '',
+                    diskPath: _diskPath,
+                    packageName: _packageName,
+                    password: _password,
+                    url: _url,
+                    user: _user,
+                    modelName: _modelName
+                },
+                function (resp) {
+                    if (resp.success) {
+                        $.each(resp.data, function (idx, table) {
+                            console.log(resp)
+                            selectObj.append('<option value="' + table + '">' + table + '</option>');
+                        });
+                        $("#more").attr("style", "display:block;");
+                    } else {
+
+                    }
+                })
+        }
+        function checks() {
+            var test = $("input[name='checkbox']:checked");
+            var checkBoxValue = "";
+            if (test.val() == undefined) {
+                showAlert("请选择！");
+                return;
+            }
+            test.each(function () {
+                checkBoxValue += $(this).val() + ",";
+            });
+
+            checkBoxValue = checkBoxValue.substring(0, checkBoxValue.length - 1);
+
+            gen(checkBoxValue);
+        }
+    </script>
+</head>
+
+<body>
+
+
+<div class="panel clearfix">
+    <div class="panel-heading">
+        <h3 class="header">生成代码工具</h3>
+    </div>
+    <div class="panel-body col-md-6" id="searchSection">
+        <div class="input-group">
+            <input id="name" type="text" name="termCode" class="form-control" placeholder="输入作者姓名"
+                   value="xiayuan"/>
+            <label for="name" class="input-group-addon">作者姓名</label>
+        </div>
+        <div class="input-group">
+            <input id="url" type="text" name="url" class="form-control"
+                   placeholder="请输入数据库地址 例如jdbc:mysql://192.168.18.252:3306/hmserver"
+                   value="jdbc:mysql://192.168.18.252:3306/hmserver"/>
+            <label for="url" class="input-group-addon">数据库地址</label>
+        </div>
+        <div class="input-group">
+            <input id="packageName" type="text" name="packageName" class="form-control"
+                   placeholder="请输入包名 例如 com.tianyi.helmet.server" value=""/>
+            <label for="packageName" class="input-group-addon">包名</label>
+        </div>
+        <div class="input-group">
+            <input id="modelName" type="text" name="modelName" class="form-control"
+                   placeholder="请输入模块名 例如client" value=""/>
+            <label for="modelName" class="input-group-addon">模块名</label>
+        </div>
+        <div class="input-group">
+            <input id="user" type="text" name="user" class="form-control" placeholder="请输入数据库用户名" value=""/>
+            <label for="user" class="input-group-addon">用户名</label>
+        </div>
+        <div class="input-group">
+            <input id="password" type="password" name="password" class="form-control" placeholder="请输入数据库密码" value=""/>
+            <label for="password" class="input-group-addon">密码</label>
+        </div>
+        <div class="input-group">
+            <input id="tableAnnotation" type="text" name="tableAnnotation" class="form-control" placeholder="请输入表说明"
+                   value=""/>
+            <label for="tableAnnotation" class="input-group-addon">表说明</label>
+        </div>
+        <div class="input-group">
+            <input id="diskPath" type="text" name="diskPath" class="form-control" placeholder="请输入保存路径" value=""/>
+            <label for="diskPath" class="input-group-addon">保存路径</label>
+        </div>
+        <div class="input-group" id="show">
+            <button class="btn btn btn-primary pull-right" type="submit"
+                    id="add-table" onclick="tables()"
+                    title="确定">确定
+            </button>
+        </div>
+    </div>
+    <div id="more" style="display:none;">
+        <div class="input-group" id="tables">
+            <select id="tableNames" class="form-control" data-init="false">
+                <option value="">选择表</option>
+            </select>
+            <label for="tableNames" class="input-group-addon">&nbsp;数&nbsp;据&nbsp;表&nbsp;</label>
+        </div>
+        请选择要生成的文件：
+        <table class="input-group" id="files" style="font-size: larger">
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Mapper.xml"/>mapper</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Dao.java"/>dao</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Service.java"/>service</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="ServiceImpl.java"/>impl</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value="Controller.java"/>controller</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value=".java"/>entity</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="checkbox" value=".vue"/>vue</td>
+            </tr>
+        </table>
+        <div class="input-group" id="showBtn">
+            <button class="btn btn btn-primary pull-right" type="submit"
+                    id="add-button" onclick="checks()"
+                    title="生成代码">生成代码
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

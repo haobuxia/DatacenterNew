@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.tianyi.datacenter.server.service.access.DataAccessServiceUnitTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.016 s <<< FAILURE! - in com.tianyi.datacenter.server.service.access.DataAccessServiceUnitTest
+createBusinessData(com.tianyi.datacenter.server.service.access.DataAccessServiceUnitTest)  Time elapsed: 0.016 s  <<< ERROR!
+java.lang.NullPointerException
+	at com.tianyi.datacenter.server.service.access.DataAccessServiceUnitTest.createBusinessData(DataAccessServiceUnitTest.java:54)
+

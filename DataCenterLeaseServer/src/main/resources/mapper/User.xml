@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tianyi.datacenter.inspect.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.tianyi.datacenter.inspect.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="organisation" property="organisation" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,organisation
+    </sql>
+    <sql id="Base_Column_List_NoId">
+        name,organisation
+    </sql>
+
+    <sql id="conditions">
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="organisation != null">
+                and organisation = #{organisation,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="com.tianyi.datacenter.inspect.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_user(
+        <include refid="Base_Column_List_NoId" />
+        )
+        VALUES (
+        #{name},#{organisation}
+        )
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.tianyi.datacenter.inspect.entity.User">
+        UPDATE t_user
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="organisation != null">
+                organisation = #{organisation,jdbcType=INTEGER},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="listBy" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_user
+        <include refid="conditions" />
+        ORDER BY id DESC
+        <include refid="core.page" />
+    </select>
+
+    <select id="countBy" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(id)
+        FROM t_user
+        <include refid="conditions" />
+    </select>
+
+    <select id="listByNoPage" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_user
+        <include refid="conditions" />
+        ORDER BY id
+    </select>
+
+    <select id="getById" parameterType="int" resultType="com.tianyi.datacenter.inspect.entity.User">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        WHERE id = #{id}
+    </select>
+    <select id="find" resultType="com.tianyi.datacenter.inspect.entity.User">
+        select * from user_test
+    </select>
+
+</mapper>
