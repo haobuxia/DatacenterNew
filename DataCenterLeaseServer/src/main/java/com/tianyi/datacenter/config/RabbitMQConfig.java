@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public final static String QUEUE_NAME = "RQ_TYInspect_Video1";
+    public final static String QUEUE_NAME = "RQ_TYInspect_Video";
 
     public final static String QUEUE_RESULT = "RQ_TYInspect_Video_Result";
 

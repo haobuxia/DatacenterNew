@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import java.util.*;
 @Api(description = "巡检表查询", tags = {"Potrol"})
 @RestController
 @RequestMapping("inspect/potrol")
+@Slf4j
 public class PotrolController {
     @Autowired
     private DataCenterFeignService dataCenterFeignService;
@@ -96,7 +98,7 @@ public class PotrolController {
         //分页查询
         Map<String, Integer> pageInfo = (Map<String, Integer>) params.get("pageInfo");
         DSParamDsBuilder dsParamBuilderStation = new DSParamDsBuilder(75);
-        if (param.get("stationName")!=null&&param.get("stationName")!=""){
+        if (param.get("stationName") != null && param.get("stationName") != "") {
             String stationName = param.get("stationName");
             dsParamBuilderStation.buildCondition("stationName", stationName);
         }
@@ -177,6 +179,7 @@ public class PotrolController {
             dsParamDsBuilder.buildCondition("companyId", companyIdFromDataBase);
             dsParamDsBuilder.buildCondition("modelId", modelIdFromDataBase);
             dsParamDsBuilder.buildCondition("deviceNo", deviceNoFromDataBase);
+            dsParamDsBuilder.buildCondition("stationId", stationIdFromDataBase);
             com.tianyi.datacenter.feign.common.vo.ResponseVo responseVocheckitemTotal = dataCenterFeignService.retrieve(dsParamDsBuilder.build());
             if (responseVocheckitemTotal.isSuccess() && responseVocheckitemTotal.getMessage() == null) {
                 List<Map<String, Object>> rtnData = (List<Map<String, Object>>) responseVocheckitemTotal.getData().get("rtnData");
@@ -287,16 +290,16 @@ public class PotrolController {
         //根据公司id  机型id  机号id  工位id查询所有  检查项id
         Set<String> itemIdList = new HashSet<>();
         DSParamBuilder dsParamBuilderitemList = new DSParamBuilder(15);
-        if (stationId!=null&&stationId!=""){
+        if (stationId != null && stationId != "") {
             dsParamBuilderitemList.buildCondition("stationId", "equals", stationId);
         }
-        if (companyId!=null&&companyId!=""){
+        if (companyId != null && companyId != "") {
             dsParamBuilderitemList.buildCondition("companyId", "equals", companyId);
         }
-        if (modelId!=null&&modelId!=""){
+        if (modelId != null && modelId != "") {
             dsParamBuilderitemList.buildCondition("modelId", "equals", modelId);
         }
-        if (deviceNo!=null&&deviceNo!=""){
+        if (deviceNo != null && deviceNo != "") {
             dsParamBuilderitemList.buildCondition("deviceNo", "equals", deviceNo);
         }
         com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoitemList = dataCenterFeignService.retrieve(dsParamBuilderitemList.build());
@@ -461,74 +464,58 @@ public class PotrolController {
         //根据公司id  机型id  机号id  工位id查询所有  检查项id
         List<String> itemIdList = new ArrayList<>();
         DSParamBuilder dsParamBuilderitemList = new DSParamBuilder(15);
-        if (stationId!=null&&stationId!=""){
+        if (stationId != null && stationId != "") {
             dsParamBuilderitemList.buildCondition("stationId", "equals", stationId);
         }
-        if (companyId!=null&&companyId!=""){
+        if (companyId != null && companyId != "") {
             dsParamBuilderitemList.buildCondition("companyId", "equals", companyId);
         }
-        if (modelId!=null&&modelId!=""){
+        if (modelId != null && modelId != "") {
             dsParamBuilderitemList.buildCondition("modelId", "equals", modelId);
         }
-        if (deviceNo!=null&&deviceNo!=""){
+        if (deviceNo != null && deviceNo != "") {
             dsParamBuilderitemList.buildCondition("deviceNo", "equals", deviceNo);
         }
         com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoitemList = dataCenterFeignService.retrieve(dsParamBuilderitemList.build());
-        if (responseVoitemList.isSuccess() && responseVoitemList.getMessage() == null) {
-            List<Map<String, String>> rtnDataitemList = (List<Map<String, String>>) responseVoitemList.getData().get("rtnData");
-            for (Map<String, String> stringStringMap : rtnDataitemList) {
-                itemIdList.add(stringStringMap.get("itemId"));
-            }
-        }
-
-        //查询所有检查项
+        //保存所有检查项类别
         Set<Map<String, Object>> resultSet = new HashSet<>();
-
-        List<Map<String, Object>> finalResult = new ArrayList();
-        if (itemIdList.size() > 0 && itemIdList != null) {
-            for (String itemId : itemIdList) {
+        if (responseVoitemList.isSuccess() && responseVoitemList.getMessage() == null) {
+            List<Map<String, String>> rtnDataitemLists = (List<Map<String, String>>) responseVoitemList.getData().get("rtnData");
+            for (Map<String, String> stringStringMap : rtnDataitemLists) {
                 Map<String, Object> resultMap = new HashMap<>();
-                DSParamBuilder dsParamBuilderitem = new DSParamBuilder(11);
-                dsParamBuilderitem.buildCondition("cid", "equals", itemId);
-                com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoitem = dataCenterFeignService.retrieve(dsParamBuilderitem.build());
-                if (responseVoitem.isSuccess() && responseVoitem.getMessage() == null) {
-                    List<Map<String, Object>> rtnDataitemList = (List<Map<String, Object>>) responseVoitem.getData().get("rtnData");
-                    for (Map<String, Object> stringStringMap : rtnDataitemList) {
-
-                        //查询所有检查项类别
-                        DSParamBuilder dsParamBuildertype = new DSParamBuilder(12);
-                        dsParamBuildertype.buildCondition("cid", "equals", stringStringMap.get("checkitemtypeId"));
-                        com.tianyi.datacenter.feign.common.vo.ResponseVo responseVotype = dataCenterFeignService.retrieve(dsParamBuildertype.build());
-                        if (responseVotype.isSuccess() && responseVotype.getMessage() == null) {
-                            List<Map<String, Object>> rtnDatatype = (List<Map<String, Object>>) responseVotype.getData().get("rtnData");
-                            for (Map<String, Object> map : rtnDatatype) {
-
-                                String checktypeNum = (String) map.get("checktypeNum");
-                                String checktypeName = (String) map.get("checktypeName");
-                                String voice = (String) map.get("voice");
-                                Double checkOrderType = (Double) map.get("checkOrder");
-
-                                resultMap.put("checktypeNum", checktypeNum);
-                                resultMap.put("checktypeName", checktypeName);
-                                resultMap.put("voice", voice);
-                                resultMap.put("checkOrderType", checkOrderType);
-                                resultSet.add(resultMap);
-                            }
-                        }
-
+                DSParamDsBuilder dsParamBuilderitem = new DSParamDsBuilder(99);
+                dsParamBuilderitem.buildCondition("cid",stringStringMap.get("itemId"));
+                com.tianyi.datacenter.feign.common.vo.ResponseVo responseVotype = dataCenterFeignService.retrieve(dsParamBuilderitem.build());
+                if (responseVotype.isSuccess() && responseVotype.getMessage() == null) {
+                        List<Map<String, Object>> rtnDatatype = (List<Map<String, Object>>) responseVotype.getData().get("rtnData");
+                            String checktypeNum = (String) rtnDatatype.get(0).get("checktypeNum");
+                            String checktypeName = (String) rtnDatatype.get(0).get("checktypeName");
+                            String voice = (String) rtnDatatype.get(0).get("voice");
+                            Double checkOrderType = (Double) rtnDatatype.get(0).get("checkOrder");
+                            resultMap.put("checktypeNum", checktypeNum);
+                            resultMap.put("checktypeName", checktypeName);
+                            resultMap.put("voice", voice);
+                            resultMap.put("checkOrderType", checkOrderType);
+                            resultSet.add(resultMap);
                     }
                 }
             }
+        List<Map<String, Object>> finalResult = new ArrayList();
+        if (resultSet.size() > 0 && resultSet != null) {
             for (Map<String, Object> map : resultSet) {
                 finalResult.add(map);
             }
-            Collections.sort(finalResult, new Comparator<Map<String, Object>>() {
-                public int compare(Map<String, Object> o1, Map<String, Object> o2) {
-                    Double name1 = (Double) o1.get("checkOrderType");
-                    Double name2 = (Double) o2.get("checkOrderType");
-                    return name1.compareTo(name2);
-                }
-            });
+            try {
+                Collections.sort(finalResult, new Comparator<Map<String, Object>>() {
+                    public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                        Double name1 = (Double) o1.get("checkOrderType");
+                        Double name2 = (Double) o2.get("checkOrderType");
+                        return name1.compareTo(name2);
+                    }
+                });
+            }catch (Exception e){
+                log.info("没有输入检查项类别顺序！！！");
+            }
             Map finalMap = new HashMap();
             finalMap.put("rtnData", finalResult);
             return ResponseVo.success(finalMap);

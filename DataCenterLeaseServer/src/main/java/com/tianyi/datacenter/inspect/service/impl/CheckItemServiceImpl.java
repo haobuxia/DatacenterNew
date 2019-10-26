@@ -196,19 +196,12 @@ public class CheckItemServiceImpl implements CheckItemService {
         String checktypeNum1 = (String) param.get(0).get("checktypeNum");
         System.out.println(checktypeNum1);
         Set<String> set = new HashSet();
-
-        Map<String, String> itemMap = new HashMap<>();
-        Map<String, String> typeMap = new HashMap<>();
-
         for (int i = 0; i < param.size(); i++) {
             set.add((String) param.get(i).get("checktypeNum"));
         }
-//        String cidType = "";
         //检查项类别的保存  获取每一个检查项类别的ID
         //保存检查项
         for (int i = 0; i < param.size(); i++) {
-
-
             String results = (String) param.get(i).get("results");
             if (results.equalsIgnoreCase("重复")) {
                 param.get(i).put("results", "重复");
@@ -229,7 +222,6 @@ public class CheckItemServiceImpl implements CheckItemService {
             String voicetag = (String) param.get(i).get("voicetag");
             String imgocrName = (String) param.get(i).get("imgocrName");
             //保存配置表结束
-
             String oldCid = "";
             DSParamBuilder dsParamBuilderItemExist = new DSParamBuilder(11);
             dsParamBuilderItemExist.buildCondition("checkitemNum", "equals", checkitemNum);
@@ -274,6 +266,7 @@ public class CheckItemServiceImpl implements CheckItemService {
                 itemSave.put("maxResult", param.get(i).get("maxResult"));
                 itemSave.put("voiceInfo", param.get(i).get("voiceInfo"));
                 itemSave.put("guidance", param.get(i).get("guidance"));
+                itemSave.put("guidance", param.get(i).get("companyName"));
                 dsParamBuilderItemUpdate.buildData(itemSave);
                 dataCenterFeignService.update(dsParamBuilderItemUpdate.build());
                 param.get(i).put("results", "成功");
@@ -282,11 +275,8 @@ public class CheckItemServiceImpl implements CheckItemService {
                 com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoCheckItemCid = dataCenterFeignService
                         .retrieveId(dsParamBuilderItem.build());
                 if (responseVoCheckItemCid.isSuccess() && responseVoCheckItemCid.getMessage() == null) {
-                    DSParamBuilder dsParamBuilderItemSave = new DSParamBuilder(11);
                     Map<String, Object> itemSave = new HashMap<>();
-
                     itemSave.put("cid", responseVoCheckItemCid.getData().get("rtnData"));
-
                     itemSave.put("checkitemNum", param.get(i).get("checkitemNum"));
                     itemSave.put("checkitemtypeId", checkTypeId);
                     //保存记录方式id
@@ -315,6 +305,7 @@ public class CheckItemServiceImpl implements CheckItemService {
                     itemSave.put("maxResult", param.get(i).get("maxResult"));
                     itemSave.put("voiceInfo", param.get(i).get("voiceInfo"));
                     itemSave.put("guidance", param.get(i).get("guidance"));
+                    itemSave.put("companyName", param.get(i).get("companyName"));
                     dsParamBuilderItem.buildData(itemSave);
                     dataCenterFeignService.add(dsParamBuilderItem.build());
                 }
@@ -520,14 +511,21 @@ public class CheckItemServiceImpl implements CheckItemService {
                 String replace = voicetag.replace("，", ",");
                 String[] voicetags = replace.split(",");
                 for (String name : voicetags) {
-                    com.tianyi.datacenter.feign.common.vo.ResponseVo responseVovoicetagId =
-                            dataCenterFeignService.retrieveId(dsParamDsBuildervoicetag.build());
-                    String voicetagId = (String) responseVovoicetagId.getData().get("rtnData");
-                    imgocrModel.put("tid", voicetagId);
-                    imgocrModel.put("name", name);
-                    dsParamDsBuildervoicetag.buildData(imgocrModel);
-                    dataCenterFeignService.add(dsParamDsBuildervoicetag.build());
-                    voicetagList.add(voicetagId);
+                    DSParamBuilder dsParamDsBuildervoicetagsave = new DSParamBuilder(85);
+                    dsParamDsBuildervoicetagsave.buildCondition("name", "equals", param.get(i).get("voicetag"));
+                    com.tianyi.datacenter.feign.common.vo.ResponseVo responseVovoicetagsave =
+                            dataCenterFeignService.retrieve(dsParamDsBuildervoicetagsave.build());
+                    if (responseVovoicetagsave.isSuccess() && responseVovoicetagsave.getMessage() == null) {
+                    }else {
+                        com.tianyi.datacenter.feign.common.vo.ResponseVo responseVovoicetagId =
+                                dataCenterFeignService.retrieveId(dsParamDsBuildervoicetag.build());
+                        String voicetagId = (String) responseVovoicetagId.getData().get("rtnData");
+                        imgocrModel.put("tid", voicetagId);
+                        imgocrModel.put("name", name);
+                        dsParamDsBuildervoicetag.buildData(imgocrModel);
+                        dataCenterFeignService.add(dsParamDsBuildervoicetag.build());
+                        voicetagList.add(voicetagId);
+                    }
                 }
                 itemSave.put("voicetag", voicetagList.toString().
                         replace("[", "").replace("]", "").replace(" ", ""));
@@ -541,14 +539,8 @@ public class CheckItemServiceImpl implements CheckItemService {
     }
 
     private String getCheckTypeId(Map param) {
-
         String checktypeNum = (String) param.get("checktypeNum");
         String cidType = "";
-
-
-        //检查项类别不一定  无论是新增还是修改都先删除再新增  如果是修改  首先获取老的  cidType
-        //检查项类别{"condition":[{"key":"checktypeNum","condition":"equals","value":"bbb"}],"dataObjectId":12,
-        // "pageInfo":{"page":1,"count":0,"pageSize":100,"total":36}}
         DSParamBuilder dsParamBuilderType = new DSParamBuilder(12);
         dsParamBuilderType.buildCondition("checktypeNum", "equals", checktypeNum);
         com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoCheckType = dataCenterFeignService.retrieve
@@ -561,17 +553,17 @@ public class CheckItemServiceImpl implements CheckItemService {
         DSParamBuilder dsParamBuilderTypeSave = new DSParamBuilder(12);
         Map<String, Object> typeSave = new HashMap<>();
         if (cidType != null && cidType != "") { //存在就的修改
-            //新增检查项类别
-            //  修改   保存旧的检查项类别的ID
-//            typeMap.put(checktypeNum, cidType);
+            //修改保存旧的检查项类别的ID
             typeSave.put("cid", cidType);
             typeSave.put("checktypeName", param.get("checktypeName"));
             typeSave.put("voice", param.get("voice"));
             typeSave.put("checktypeNum", param.get("checktypeNum"));
             typeSave.put("checkOrder", param.get("checkOrderType"));
+            typeSave.put("companyId", param.get("companyId"));
             dsParamBuilderTypeSave.buildData(typeSave);
             com.tianyi.datacenter.feign.common.vo.ResponseVo update = dataCenterFeignService.update
                     (dsParamBuilderTypeSave.build());
+            log.info("检查项修改" + update.isSuccess());
         } else {
             //不存在就的  新增保存新的检查项类别ID
             DSParamBuilder dsParamBuilder = new DSParamBuilder(12);
@@ -584,15 +576,14 @@ public class CheckItemServiceImpl implements CheckItemService {
             typeSave.put("voice", param.get("voice"));
             typeSave.put("checktypeNum", param.get("checktypeNum"));
             typeSave.put("checkOrder", param.get("checkOrderType"));
+            typeSave.put("companyId", param.get("companyId"));
             dsParamBuilderTypeSave.buildData(typeSave);
             com.tianyi.datacenter.feign.common.vo.ResponseVo add = dataCenterFeignService.add(dsParamBuilderTypeSave
                     .build());
-            System.out.println("检查项类别新增成功");
+            log.info("检查项新增" + add.isSuccess());
         }
         return cidType;
     }
-
-    //获取每一个检查项类别ID  通过新增修改  重复  失败保存检查项
 
 
     @Override
@@ -938,17 +929,14 @@ public class CheckItemServiceImpl implements CheckItemService {
             if (importExcel.size() == 0) {
                 return ResponseVo.fail("表中没有数据");
             }
-            for (int i = 0; i < importExcel.size(); i++) {
-                String companyName = (String) importExcel.get(i).get("公司");
-                if (companyName == null) {
-                    importExcel.remove(importExcel.get(i));
-                    i--;
-                }
-            }
             List<Map<String, Object>> resultList = new ArrayList<>();
             for (Map maps : importExcel) {
                 Map<String, Object> map = new HashMap<>();
                 String companyName = (String) maps.get("公司");
+                if (companyName == null) {
+                    importExcel.remove(maps);
+                    continue;
+                }
                 String typeName = (String) maps.get("资产种类");
                 String modelName = (String) maps.get("型号");
                 String deviceNo = (String) (maps.get("机号"));
@@ -1219,6 +1207,7 @@ public class CheckItemServiceImpl implements CheckItemService {
                     }
                     dsParamBuilderCheckItem.buildCondition("recodingModelId", "equals", recodingModelId);
                     dsParamBuilderCheckItem.buildCondition("checkOrder", "equals", checkOrderItem);
+                    dsParamBuilderCheckItem.buildCondition("companyId", "equals", companyId);//添加公司Id
                     //查询条件加上检查项类别ID
                     DSParamBuilder dsParamBuilderType = new DSParamBuilder(12);
                     dsParamBuilderType.buildCondition("checktypeNum", "equals", checktypeNum);
@@ -1247,6 +1236,7 @@ public class CheckItemServiceImpl implements CheckItemService {
                             dsParamBuilderCheckType.buildCondition("checktypeNum", "equals", checktypeNum);
                             dsParamBuilderCheckType.buildCondition("checktypeName", "equals", checktypeName);
                             dsParamBuilderCheckType.buildCondition("checkOrder", "equals", checkOrderType);
+                            dsParamBuilderCheckType.buildCondition("companyId", "equals", companyId);
                             com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoAllType =
                                     dataCenterFeignService.retrieve(dsParamBuilderCheckType.build());
                             if (responseVoAllType.isSuccess() && responseVoAllType.getMessage() == null) {
@@ -1584,6 +1574,7 @@ public class CheckItemServiceImpl implements CheckItemService {
             }
             dsParamBuilderCheckItem.buildCondition("recodingModelId", "equals", recodingModelId);
             dsParamBuilderCheckItem.buildCondition("checkOrder", "equals", checkOrderItem);
+            dsParamBuilderCheckItem.buildCondition("companyId", "equals", companyId);
             //查询条件加上检查项类别ID
             DSParamBuilder dsParamBuilderType = new DSParamBuilder(12);
             dsParamBuilderType.buildCondition("checktypeNum", "equals", checktypeNum);
@@ -1612,6 +1603,7 @@ public class CheckItemServiceImpl implements CheckItemService {
                     dsParamBuilderCheckType.buildCondition("checktypeNum", "equals", checktypeNum);
                     dsParamBuilderCheckType.buildCondition("checktypeName", "equals", checktypeName);
                     dsParamBuilderCheckType.buildCondition("checkOrder", "equals", checkOrderType);
+                    dsParamBuilderCheckType.buildCondition("companyId", "equals", companyId);
                     com.tianyi.datacenter.feign.common.vo.ResponseVo responseVoAllType = dataCenterFeignService
                             .retrieve(dsParamBuilderCheckType.build());
                     if (responseVoAllType.isSuccess() && responseVoAllType.getMessage() == null) {
@@ -1657,7 +1649,7 @@ public class CheckItemServiceImpl implements CheckItemService {
         Set<String> strings = empinfo.keySet();
         for (String s : strings) {
             if ("2".equals(s)) {
-                createFormulaList(workbook, workbookSheet, recodingmodels, cellIdEnum);
+                createFormulaList(workbook, workbookSheet, recodingmodels, cellIdEnum);//记录方式枚举
             }
             row = workbookSheet.createRow(rowId++);
             Object[] objects = empinfo.get(s);
@@ -1675,10 +1667,26 @@ public class CheckItemServiceImpl implements CheckItemService {
                 }
             }
         }
-        for (int i = 0; i < imgocrmodels.length - 1; i++) {
-            row = workbookSheet.createRow(rowId);
-            XSSFCell cell = row.createCell(imgocrmodelBackup);
-            cell.setCellValue(imgocrmodels[i]);
+        //设置文本格式
+        rowId = 1;
+        CellStyle cellStyleHm = workbook.createCellStyle();
+        XSSFCreationHelper creationHelperHm = workbook.getCreationHelper();
+        XSSFDataFormat dataFormat = creationHelperHm.createDataFormat();
+        ((XSSFCellStyle) cellStyleHm).setDataFormat(dataFormat.getFormat("@"));
+        for (int i = 1; i < 200; i++) {
+            row = workbookSheet.createRow(rowId++);
+            for (int j = 0; j <= imgocrmodelBackup; j++) {
+                if (j==11){//跳过记录方式枚举
+                    continue;
+                }
+                XSSFCell cellHm = row.createCell(j);
+                cellHm.setCellStyle(cellStyleHm);
+                int imgocrmodel=i-1;//设置可选图像识别
+                if (j==imgocrmodelBackup&&imgocrmodel<imgocrmodels.length){
+                    XSSFCell cell = row.createCell(imgocrmodelBackup);
+                    cell.setCellValue(imgocrmodels[imgocrmodel]);
+                }
+            }
         }
         return workbook;
     }

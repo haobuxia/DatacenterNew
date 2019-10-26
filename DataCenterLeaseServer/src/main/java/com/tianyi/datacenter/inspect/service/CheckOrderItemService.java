@@ -26,4 +26,14 @@ public interface CheckOrderItemService  {
     ResponseVo imgresult(Map<String,Object> param);
 
     ResponseVo markresult(Map<String,String> param);
+
+    ResponseVo getBarrage(Map<String, String> param);
+
+    ResponseVo getVoiceRemark(Map<String, String> param);
+
+    ResponseVo updateVoiceRemark(Map<String, Object> param);
+
+    ResponseVo getAnalysisData(Map<String, String> param);
+
+    ResponseVo getItemTagresult(String videoId);
 }

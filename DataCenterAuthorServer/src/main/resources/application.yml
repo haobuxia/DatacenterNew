@@ -39,7 +39,7 @@ mybatis:
   type-aliases-package: com.tianyi.datacenter.*.entity
 tianyi:
   intesrv:
-    url: http://smartuat.tygps.com
+    url: @hmUrl@
   tableau:
     url: http://192.168.88.130
     username: test

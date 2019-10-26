@@ -2,6 +2,7 @@ package com.tianyi.datacenter.inspect.service;
 
 
 import com.tianyi.datacenter.common.vo.ResponseVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +30,8 @@ public interface CheckItemService {
     ResponseVo updateCheckItem(Map<String,Object> param);
 
     ResponseVo searchCheckItem(Map<String,Object> param);
+
+    ResponseVo importExcel(MultipartFile file);
+
+    ResponseVo reltimestatus(Map<String, Object> map);
 }

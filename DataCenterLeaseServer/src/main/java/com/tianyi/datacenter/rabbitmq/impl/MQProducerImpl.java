@@ -1,9 +1,10 @@
 package com.tianyi.datacenter.rabbitmq.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tianyi.datacenter.rabbitmq.MQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MQProducerImpl implements MQProducer {
     @Autowired
-    private AmqpTemplate amqpTemplate;
+    private RabbitTemplate rabbitTemplate;
 
     private Logger logger = LoggerFactory.getLogger(MQProducerImpl.class);
     /* (non-Javadoc)
@@ -22,7 +23,8 @@ public class MQProducerImpl implements MQProducer {
     @Override
     public void sendDataToQueue(String queueKey, Object object) {
         try {
-            amqpTemplate.convertAndSend("EX_BUS",queueKey, object);
+            String objectString = JSONObject.toJSONString(object);
+            rabbitTemplate.convertAndSend("EX_BUS",queueKey, objectString);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

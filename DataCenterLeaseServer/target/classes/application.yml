@@ -66,6 +66,8 @@ tianyi:
   imgocrmodel:
     video:
       url: http://192.168.30.226:9090
+  imgrecognition:
+    url: http://111.11.4.69:15344
 #spring:
 #    main:
 #        banner-mode: "off"

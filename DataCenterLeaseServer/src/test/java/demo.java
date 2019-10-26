@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 /**
@@ -21,7 +22,6 @@ import java.util.UUID;
 public class demo {
     public static void main(String[] args) {
         System.out.println(System.currentTimeMillis());
-
         try {
             uploadFile("http://103.20.114.238:8866/upload?app=f8377e2911f4443aa3cbfd43c1f56e0c&token=1f147baacc3e4d3abb50561782c5451a "
             ,"D:\\abc\\1.mp4");

@@ -1,8 +1,10 @@
 package com.tianyi.datacenter.inspect.controller;
 
 import com.tianyi.datacenter.common.framework.controller.SuperController;
+import com.tianyi.datacenter.common.vo.RabbitMqVo;
 import com.tianyi.datacenter.common.vo.ResponseVo;
 import com.tianyi.datacenter.inspect.service.HelmetUniversalService;
+import com.tianyi.datacenter.rabbitmq.MQProducer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -11,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tianxujin on 2019/5/13 10:56
@@ -22,7 +29,8 @@ public class HelmetUniversalController extends SuperController {
 
     @Autowired
     HelmetUniversalService helmetUniversalService;
-
+    @Autowired
+    private MQProducer mqProducer;
     @ApiOperation(value = "创建工单")
     @RequestMapping(value = "/workorder/create", method = RequestMethod.POST)
     public ResponseVo createWorkOrder(
@@ -152,5 +160,24 @@ public class HelmetUniversalController extends SuperController {
             @ApiParam(name = "deviceNumber", value = "头盔编号", required = true) @RequestParam String deviceNumber) {
         ResponseVo responseVo = helmetUniversalService.getContacts(userId);
         return responseVo;
+    }
+    @ApiOperation(value = "查询头盔呼叫用户列表")
+    @RequestMapping(value = "/rabbitmqtest", method = RequestMethod.POST)
+    public ResponseVo rabbitmqtest() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String parse = simpleDateFormat.format(new Date());
+        params.put("orderId", "orderId");
+        params.put("updateTime", parse);
+        params.put("userAccount", "");
+        params.put("deviceNumber", "2300182");
+        RabbitMqVo rabbitMqVo = new RabbitMqVo();
+        rabbitMqVo.setsTime(new Date().getTime() + "");
+        rabbitMqVo.setMessage(params);
+        rabbitMqVo.setMessageId("1");
+        rabbitMqVo.setRoutingKey("TYHelmet.Work.Order.Changed");
+        mqProducer.sendDataToQueue("TYHelmet.Work.Order.Changed", rabbitMqVo);
+
+        return ResponseVo.success(rabbitMqVo);
     }
 }

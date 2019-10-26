@@ -1,14 +1,20 @@
 package com.tianyi.datacenter.inspect.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.liaochong.myexcel.utils.AttachmentExportUtil;
+import com.google.gson.JsonObject;
 import com.tianyi.datacenter.common.util.ExcelLogs;
 import com.tianyi.datacenter.common.util.ExcelUtil;
+import com.tianyi.datacenter.common.vo.RabbitMqVo;
 import com.tianyi.datacenter.common.vo.ResponseVo;
+import com.tianyi.datacenter.config.RabbitMQConfig;
 import com.tianyi.datacenter.feign.common.util.DSParamBuilder;
 import com.tianyi.datacenter.feign.common.util.DSParamDsBuilder;
 import com.tianyi.datacenter.feign.service.DataCenterFeignService;
 import com.tianyi.datacenter.inspect.service.DistributionService;
 import com.tianyi.datacenter.inspect.service.HelmetUniversalService;
+import com.tianyi.datacenter.rabbitmq.MQProducer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.*;
@@ -16,9 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -26,12 +34,14 @@ import java.util.*;
  * @version 0.1
  **/
 @Service
+@Slf4j
 public class DistributionServiceImpl implements DistributionService {
     @Autowired
     private HelmetUniversalService helmetUniversalService;
     @Autowired
     private DataCenterFeignService dataCenterFeignService;
-
+    @Autowired
+    private MQProducer mqProducer;
     @Override
     @Transactional
     public ResponseVo saveAll(List<Map<String, Object>> param) {
@@ -55,7 +65,42 @@ public class DistributionServiceImpl implements DistributionService {
             }
             ResponseVo workOrder = helmetUniversalService.createWorkOrder("", helmetNos, userNames, companyName,
                     modelName, deviceNo, stationName, endTime, shootlong);
+            Map<String, Object> responseData = (Map<String, Object>) workOrder.getData();
             if (workOrder.isSuccess()) {
+                //发布信令
+                if(helmetNos.contains(",")){//多个头盔编号发送信令
+                    String[] helmetNosSplits = helmetNos.split(",");
+                    for (String helmetNo : helmetNosSplits) {
+                        Map<String, Object> params = new HashMap<String, Object>();
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String parse = simpleDateFormat.format(new Date());
+                        params.put("orderId", (String)responseData.get("orderId"));
+                        params.put("updateTime", parse);
+                        params.put("userAccount", "");
+                        params.put("deviceNumber", helmetNo);
+                        RabbitMqVo rabbitMqVo = new RabbitMqVo();
+                        rabbitMqVo.setsTime(new Date().getTime() + "");
+                        rabbitMqVo.setMessage(params);
+                        rabbitMqVo.setMessageId("1");
+                        rabbitMqVo.setRoutingKey("TYHelmet.Work.Order.Changed");
+                        mqProducer.sendDataToQueue("TYHelmet.Work.Order.Changed", rabbitMqVo);
+                    }
+                }else {
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String parse = simpleDateFormat.format(new Date());
+                    params.put("orderId", (String)responseData.get("orderId"));
+                    params.put("updateTime", parse);
+                    params.put("userAccount", "");
+                    params.put("deviceNumber", helmetNos);
+                    RabbitMqVo rabbitMqVo = new RabbitMqVo();
+                    rabbitMqVo.setsTime(new Date().getTime()+"");
+                    rabbitMqVo.setMessage(params);
+                    rabbitMqVo.setMessageId("1");
+                    rabbitMqVo.setRoutingKey("TYHelmet.Work.Order.Changed");
+                    log.info("发送信令++++++++++++++++++++++++++++++");
+                    mqProducer.sendDataToQueue("TYHelmet.Work.Order.Changed", rabbitMqVo);
+                }
                 map.put("companyName", companyName);
                 map.put("stationName", stationName);
                 map.put("modelName", modelName);

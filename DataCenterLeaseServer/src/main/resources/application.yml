@@ -66,6 +66,8 @@ tianyi:
   imgocrmodel:
     video:
       url: @infcUrl@
+  imgrecognition:
+    url: @imgUrl@
 #spring:
 #    main:
 #        banner-mode: "off"

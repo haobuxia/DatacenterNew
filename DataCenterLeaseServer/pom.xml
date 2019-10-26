@@ -210,6 +210,7 @@
                 <rabbitPassword>ty</rabbitPassword>
                 <hmUrl>http://smart.tygps.com:13332</hmUrl>
                 <infcUrl>http://192.168.30.226:9090</infcUrl>
+                <imgUrl>http://111.11.4.69:15344</imgUrl>
             </properties>
         </profile>
         <profile>
@@ -227,6 +228,7 @@
                 <rabbitPassword>ty</rabbitPassword>
                 <hmUrl>http://smart.tygps.com:13332</hmUrl>
                 <infcUrl>http://192.168.30.226:9090</infcUrl>
+                <imgUrl>http://111.11.4.69:15344</imgUrl>
             </properties>
         </profile>
         <profile>
@@ -244,6 +246,7 @@
                 <rabbitPassword>tyMQ@2019</rabbitPassword>
                 <hmUrl>http://smartuat.tygps.com</hmUrl>
                 <infcUrl>http://192.168.111.23:9090</infcUrl>
+                <imgUrl>http://111.11.4.69:15344</imgUrl>
             </properties>
         </profile>
     </profiles>

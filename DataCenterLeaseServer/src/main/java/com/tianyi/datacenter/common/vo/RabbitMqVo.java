@@ -1,5 +1,6 @@
 package com.tianyi.datacenter.common.vo;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -7,10 +8,10 @@ import java.util.Map;
  *
  * Created by tianxujin on 2019/09/05
  */
-public class RabbitMqVo {
+public class RabbitMqVo implements Serializable {
     private String layerLevel = "1"; //当前消息所在层级
     private String routingKey; // 路由键
-    private String producerId = "123123"; // 生产者ID
+    private String producerId = "inspect01"; // 生产者ID
     private String messageId; // 消息ID
     private String heartbeat = "false"; // true代表是心跳包，false代表不是
     private String sTime; // 消息生成时间戳

@@ -47,37 +47,21 @@ public class CheckitemExport implements Serializable {
      */
     @ExcelColumn(order = 6, title = "检查项名称", index = 6)
     private String checkitemName;
-    /**
-     * 类别语音提示  voice
-     * 类别显示顺序 checkOrder
-     * 检查项编号  checkitemNum
-     * 检查项名称 checkitemName
-     * 记录方式  recodingModelId
-     * 判断标准
-     * 解决方法
-     * 判定方法
 
-     */
-    /**
-     * 检查项名称
-     */
     @ExcelColumn(order = 7, title = "记录方式", index = 7)
     private String recodingModel;
-   /*
-    @ExcelColumn(order = 8, title = "拍照时间间隔(s)", index = 8)
-    private Integer time;*/
     /**
-     * 检查项名称
+     * 判断标准
      */
     @ExcelColumn(order = 8, title = "判断标准", index = 8)
     private String standard;
     /**
-     * 检查项名称
+     * 解决方法
      */
     @ExcelColumn(order = 9, title = "解决方法", index = 9)
     private String solveMethod;
     /**
-     * 检查项名称
+     * 判定方法
      */
     @ExcelColumn(order = 10, title = "判定方法", index = 10)
     private String decisionMethod;
@@ -114,6 +98,4 @@ public class CheckitemExport implements Serializable {
      */
     @ExcelColumn(order = 16, title = "显示顺序", index = 16)
     private Double checkOrder;
-
-
 }

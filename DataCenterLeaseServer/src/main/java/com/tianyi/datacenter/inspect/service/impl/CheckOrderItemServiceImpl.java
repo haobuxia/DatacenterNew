@@ -1,6 +1,7 @@
 package com.tianyi.datacenter.inspect.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.tianyi.datacenter.common.constants.OrderConstant;
 import com.tianyi.datacenter.common.util.TimeUtil;
@@ -8,9 +9,11 @@ import com.tianyi.datacenter.common.vo.ResponseVo;
 import com.tianyi.datacenter.config.TianYiConfig;
 import com.tianyi.datacenter.feign.common.util.DSParamBuilder;
 import com.tianyi.datacenter.feign.common.util.DSParamDsBuilder;
+import com.tianyi.datacenter.feign.common.vo.*;
 import com.tianyi.datacenter.feign.service.DataCenterFeignService;
 import com.tianyi.datacenter.inspect.dao.CheckOrderItemDao;
 import com.tianyi.datacenter.inspect.service.CheckOrderItemService;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -457,6 +459,113 @@ public class CheckOrderItemServiceImpl implements CheckOrderItemService {
         resultData.put("imgresult", imgresult);
         resultData.put("voicetags", voicetags);
         return ResponseVo.success(resultData);
+    }
+
+    @Override
+    public ResponseVo getBarrage(Map<String, String> param) {
+        //查询语音识别
+        List<Map<Object, Object>> searchBarrage = new ArrayList();
+        DSParamBuilder dsParamBuilderimg = new DSParamBuilder(101);
+        dsParamBuilderimg.buildCondition("videoId","equals", param.get("videoId"));
+        com.tianyi.datacenter.feign.common.vo.ResponseVo responseBarrage = dataCenterFeignService
+                .retrieve
+                        (dsParamBuilderimg.build());
+        if (responseBarrage.isSuccess() && responseBarrage.getMessage() == null) {
+            searchBarrage = (List<Map<Object, Object>>) responseBarrage.getData().get("rtnData");
+        }
+        List<Map<Object,Object>> barrage = new ArrayList<>();
+        Map result = new HashMap<>();
+        for (Map<Object, Object> stringObjectMap : searchBarrage) {
+            Map<Object,Object> barrageMap = new HashMap<>();
+            barrageMap.put("time",stringObjectMap.get("timeseconds"));
+            barrageMap.put("title",stringObjectMap.get("perspeech"));
+            barrage.add(barrageMap);
+        }
+        result.put("perspeech",barrage);
+        result.put("videoId",param.get("videoId"));
+        return ResponseVo.success(result);
+    }
+
+    @Override
+    public ResponseVo getVoiceRemark(Map<String, String> param) {
+        //查询语音识别
+        List<Map<String, Object>> searchBarrage = new ArrayList();
+        DSParamBuilder dsParamBuilderimg = new DSParamBuilder(101);
+        dsParamBuilderimg.buildCondition("videoId","equals", param.get("videoId"));
+        com.tianyi.datacenter.feign.common.vo.ResponseVo responseBarrage = dataCenterFeignService
+                .retrieve
+                        (dsParamBuilderimg.build());
+        if (responseBarrage.isSuccess() && responseBarrage.getMessage() == null) {
+            searchBarrage = (List<Map<String, Object>>) responseBarrage.getData().get("rtnData");
+        }
+        List<Map> barrage = new ArrayList<>();
+        Map result = new HashMap<>();
+        for (Map<String, Object> stringObjectMap : searchBarrage) {
+            String timeseconds = TimeUtil.getTimeStrBySecond((Integer) stringObjectMap.get("timeseconds"));
+            String perspeech = (String)stringObjectMap.get("perspeech");
+            String finall = timeseconds+perspeech;
+            Map map = new HashMap();
+            map.put("bid",stringObjectMap.get("bid"));
+            map.put("voiceRemark",finall);
+            barrage.add(map);
+        }
+        result.put("voiceRemarks",barrage);
+        result.put("videoId",param.get("videoId"));
+        return ResponseVo.success(result);
+    }
+
+    @Override
+    public ResponseVo updateVoiceRemark(Map<String, Object> param) {
+        List<Map<String, Object>> voiceRemarks = (List<Map<String, Object>>) param.get("voiceRemarks");
+        for (Map<String, Object> stringObjectMap : voiceRemarks) {
+            String voiceRemark = (String) stringObjectMap.get("voiceRemark");
+            String bid = (String) stringObjectMap.get("bid");
+            Map saveMap = new HashMap();
+            saveMap.put("perspeech",voiceRemark.substring(8));//保存语音
+            DSParamBuilder dsParamBuilderBarrage = new DSParamBuilder(101);
+            dsParamBuilderBarrage.buildCondition("bid","equals", bid);
+            dsParamBuilderBarrage.buildData(saveMap);
+            com.tianyi.datacenter.feign.common.vo.ResponseVo update = dataCenterFeignService.update(dsParamBuilderBarrage.build());
+            log.info(update.isSuccess()+"   "+update.isSuccess()+"语音标签更新++++++++++++++++++++");
+        }
+        return ResponseVo.success(param);
+    }
+
+    @Override
+    public ResponseVo getAnalysisData(Map<String, String> param) {
+        String videoId = param.get("videoId");
+        String s = HttpUtil.get(tianYiConfig.getTianYiIntesrvUrl()+videoId);
+        JSONObject jsonObject = JSONObject.parseObject(s);
+        Map<String, Object> jsonObjectMap = jsonObject;
+        Map<String, Object> data = (Map<String, Object>) jsonObjectMap.get("data");
+        Map<String, List<Map<String, Object>>> val = (Map<String, List<Map<String, Object>>>) data.get("val");
+        List<Map<String, Object>> zhuansurpm = val.get("转速rpm");
+        double val1=0;
+        for (Map<String, Object> stringObjectMap : zhuansurpm) {
+            val1 += Double.parseDouble(stringObjectMap.get("val") + "");
+        }
+        double rpmavg = 0;
+        if (zhuansurpm!=null&&zhuansurpm.size()>0) {
+            rpmavg = val1 / zhuansurpm.size();
+        }
+        //todo:还没有需求
+        return ResponseVo.success(rpmavg);
+    }
+
+
+
+    @Override
+    public ResponseVo getItemTagresult(String videoId) {
+        List<Map<String, Object>> result = new ArrayList();
+        DSParamDsBuilder dsParamDsBuilder = new DSParamDsBuilder(103);
+        dsParamDsBuilder.buildCondition("videoId",videoId);
+        com.tianyi.datacenter.feign.common.vo.ResponseVo retrieve = dataCenterFeignService.retrieve(dsParamDsBuilder.build());
+        if (retrieve.isSuccess()&&retrieve.getMessage()==null){
+            result = (List<Map<String, Object>>) retrieve.getData().get
+                    ("rtnData");
+            return ResponseVo.success(result);
+        }
+        return ResponseVo.success(result);
     }
 
     private Map getchecktyperate(String cid) {

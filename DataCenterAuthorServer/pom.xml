@@ -75,6 +75,7 @@
                 <dbBusiUrl>192.168.30.226:3306</dbBusiUrl>
                 <dbBusiUser>root</dbBusiUser>
                 <dbBusiPassword>root</dbBusiPassword>
+                <hmUrl>http://smart.tygps.com:13332</hmUrl>
             </properties>
         </profile>
         <profile>
@@ -87,6 +88,7 @@
                 <dbBusiUrl>192.168.30.226:3306</dbBusiUrl>
                 <dbBusiUser>root</dbBusiUser>
                 <dbBusiPassword>root</dbBusiPassword>
+                <hmUrl>http://smart.tygps.com:13332</hmUrl>
             </properties>
         </profile>
         <profile>
@@ -99,6 +101,7 @@
                 <dbBusiUrl>192.168.111.23:3306</dbBusiUrl>
                 <dbBusiUser>root</dbBusiUser>
                 <dbBusiPassword>root</dbBusiPassword>
+                <hmUrl>http://smartuat.tygps.com</hmUrl>
             </properties>
         </profile>
     </profiles>

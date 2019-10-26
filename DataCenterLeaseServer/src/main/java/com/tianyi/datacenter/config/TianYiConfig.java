@@ -17,7 +17,8 @@ public class TianYiConfig {
     //天远智能服务接口
     @Value("${tianyi.intesrv.url}")
     private String tianYiIntesrvUrl;
+    @Value("${tianyi.imgrecognition.url}")
+    private String tianYiImgRecognition;
     @Value("${tianyi.imgocrmodel.video.url}")
     private String tianYiIntesrvImgocrmodelVideoUrl;
-
 }

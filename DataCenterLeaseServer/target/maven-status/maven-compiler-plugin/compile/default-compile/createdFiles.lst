@@ -1,7 +1,6 @@
 com\tianyi\datacenter\config\ScheduleTask.class
 com\tianyi\datacenter\config\MyBatisPlusConfig.class
 com\tianyi\datacenter\config\QuartzConfigration.class
-com\tianyi\datacenter\inspect\controller\CheckitemController$1.class
 com\tianyi\datacenter\config\Swagger2.class
 com\tianyi\datacenter\config\CORSConfiguration.class
 com\tianyi\datacenter\common\util\ApplicationContextProvider.class
@@ -11,9 +10,11 @@ com\tianyi\datacenter\inspect\controller\PotrolController$3.class
 com\tianyi\datacenter\common\util\StringUtil.class
 com\tianyi\datacenter\inspect\service\impl\AnalysisServiceImpl.class
 com\tianyi\datacenter\config\FeignBeanFactoryPostProcessor.class
+com\tianyi\datacenter\inspect\controller\OperateController.class
 com\tianyi\datacenter\inspect\entity\Checkstation.class
 com\tianyi\datacenter\model\ErrorCode.class
 com\tianyi\datacenter\common\util\TimeUtil.class
+com\tianyi\datacenter\config\RabbitMQConfig.class
 com\tianyi\datacenter\inspect\entity\CheckitemExport.class
 com\tianyi\datacenter\inspect\dao\CarCountDao.class
 com\tianyi\datacenter\common\util\ExcelLogs.class
@@ -24,6 +25,7 @@ com\tianyi\datacenter\common\vo\AppAccountVo.class
 com\tianyi\datacenter\inspect\service\impl\CheckOrderItemServiceImpl.class
 com\tianyi\datacenter\inspect\entity\CarCount.class
 com\tianyi\datacenter\inspect\entity\User.class
+com\tianyi\datacenter\inspect\service\impl\CheckItemServiceImpl$1.class
 com\tianyi\datacenter\inspect\service\impl\StationServiceImpl.class
 com\tianyi\datacenter\inspect\controller\CarDetailController.class
 com\tianyi\datacenter\common\vo\ResponseVo.class
@@ -31,6 +33,8 @@ com\tianyi\datacenter\inspect\dao\StationCheckDao.class
 com\tianyi\datacenter\inspect\service\impl\DistributionServiceImpl.class
 com\tianyi\datacenter\common\util\FieldForSortting.class
 com\tianyi\datacenter\config\WebSocketConfig.class
+com\tianyi\datacenter\rabbitmq\impl\MQProducerImpl.class
+com\tianyi\datacenter\rabbitmq\listeners\QueueListenter.class
 com\tianyi\datacenter\common\util\TydeviceLocationUtil.class
 com\tianyi\datacenter\config\TianYiConfig.class
 com\tianyi\datacenter\inspect\controller\DesktopController.class
@@ -49,6 +53,7 @@ com\tianyi\datacenter\inspect\service\impl\UserServiceImpl.class
 com\tianyi\datacenter\model\ErrorCode$ErrorCodeBuilder.class
 com\tianyi\datacenter\inspect\entity\CarImport.class
 com\tianyi\datacenter\inspect\service\impl\CheckItemServiceImpl.class
+com\tianyi\datacenter\inspect\service\impl\CheckItemServiceImpl$2.class
 com\tianyi\datacenter\common\util\ExcelUtil.class
 com\tianyi\datacenter\inspect\dao\CheckitemDao.class
 com\tianyi\datacenter\inspect\controller\HelmetUniversalController.class
@@ -67,9 +72,11 @@ com\tianyi\datacenter\config\RedisConfig.class
 com\tianyi\datacenter\common\aop\LogAspect.class
 com\tianyi\datacenter\common\util\ExcelUtil2.class
 com\tianyi\datacenter\inspect\controller\MyThread.class
+com\tianyi\datacenter\inspect\service\OperateService.class
 com\tianyi\datacenter\common\util\ExcelCell.class
 com\tianyi\datacenter\inspect\controller\PotrolController$2.class
 com\tianyi\datacenter\inspect\service\HelmetUniversalService.class
+com\tianyi\datacenter\inspect\service\impl\OperateServiceImpl.class
 com\tianyi\datacenter\inspect\entity\Checkitem.class
 com\tianyi\datacenter\inspect\dao\StationDao.class
 com\tianyi\datacenter\cons\CacheKeyConstants.class
@@ -78,6 +85,7 @@ com\tianyi\datacenter\inspect\controller\PotrolController.class
 com\tianyi\datacenter\inspect\controller\AnalysisController.class
 com\tianyi\datacenter\inspect\service\DistributionService.class
 com\tianyi\datacenter\inspect\controller\DistributionCarController.class
+com\tianyi\datacenter\common\vo\RabbitMqVo.class
 com\tianyi\datacenter\inspect\controller\PotrolController$1.class
 com\tianyi\datacenter\inspect\dao\CheckOrderItemDao.class
 com\tianyi\datacenter\inspect\entity\Recodingmodel.class
@@ -87,6 +95,6 @@ com\tianyi\datacenter\inspect\dao\UserDao.class
 com\tianyi\datacenter\inspect\entity\Station.class
 com\tianyi\datacenter\common\excel\ExcelUtil.class
 com\tianyi\datacenter\common\util\BeanToMap.class
-com\tianyi\datacenter\inspect\controller\CheckitemController$2.class
 com\tianyi\datacenter\common\util\upRate.class
 com\tianyi\datacenter\inspect\dao\KStationcheckDao.class
+com\tianyi\datacenter\rabbitmq\MQProducer.class
